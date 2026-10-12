@@ -2,6 +2,8 @@
 
 更新日期：2026-10-12。
 
+下課後改用 Mac：先讀 [resume-on-mac.md](resume-on-mac.md)。目前停在 Render 環境變數設定，尚未確認按下 Deploy；使用者已要求暫停，等待回家接續。
+
 ## 目前進度
 
 - 專案：`D:\roy_space\office_foodie`。
