@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test:gemini": "node --env-file-if-exists=.env test/verify-gemini-live.mjs",
     "test": "pnpm --filter @office-foodie/shared build && pnpm build && node --env-file-if-exists=.env --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
@@ -19,6 +20,7 @@
     "@nestjs/platform-express": "^12.0.1",
     "@office-foodie/shared": "workspace:*",
     "@prisma/client": "6.19.0",
+    "multer": "^2.4.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "zod": "^4.3.6"
@@ -27,6 +29,7 @@
     "@nestjs/cli": "^12.0.0",
     "@nestjs/testing": "12.0.1",
     "@types/express": "^5.0.0",
+    "@types/multer": "^2.3.0",
     "@types/node": "^24.0.0",
     "jest": "^30.5.2",
     "prisma": "6.19.0",

@@ -64,4 +64,7 @@ CI 使用 PostgreSQL service container，透過相同的 app factory 驗證真�
 Gemini provider 的真實驗證需先從 [Google AI Studio](https://aistudio.google.com/apikey) 建立 key，再於本機 `apps/api/.env` 設定 `GEMINI_API_KEY`。
 測試真實辨識時使用 `MENU_EXTRACTOR=gemini`；`GEMINI_MODEL` 可選擇帳號可用的模型，預設為 `gemini-3.8-flash`。
 實作依 [Gemini 結構化輸出文件](https://ai.google.dev/gemini-api/docs/generate-content/structured-output) 使用 JSON Schema；解析後再次套用 Zod 驗證，無法解析的價格保留為需人工確認。
-任務 5.2 需完成真實照片測試才可勾選，mock 與 stub 測試不代表真實辨識已通過。
+任務 5.2 已用真實 key 驗證範例圖片；需要重新驗證時，設定 key 後執行 `npx --yes pnpm@10.28.2 --filter @office-foodie/api test:gemini`。
+Gemini REST `responseFormat.text.mimeType` 使用 `APPLICATION_JSON` enum，與 HTTP 的 `Content-Type: application/json` 不同，參見 [API reference](https://ai.google.dev/api/generate-content)。
+此真實 API 測試不會在 CI 自動執行；CI 使用 mock/stub，不需要 key。
+辨識次數以 UTC 日期存入 PostgreSQL：每 IP 預設 5 次，全站預設 100 次，可透過 `EXTRACTION_IP_DAILY_LIMIT` 與 `EXTRACTION_GLOBAL_DAILY_LIMIT` 設定。

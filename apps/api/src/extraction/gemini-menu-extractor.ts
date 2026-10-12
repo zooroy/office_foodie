@@ -88,7 +88,7 @@ export class GeminiMenuExtractor implements MenuExtractor {
             generationConfig: {
               responseFormat: {
                 text: {
-                  mimeType: 'application/json',
+                  mimeType: 'APPLICATION_JSON',
                   schema: {
                     type: 'object',
                     properties: {

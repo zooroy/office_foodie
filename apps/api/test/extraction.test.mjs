@@ -59,12 +59,10 @@ describe('menu extractor providers and Gemini response handling', () => {
   it('sends inline images with structured JSON output and a 30-second timeout', async () => {
     process.env.GEMINI_API_KEY = 'test-key';
     const timeout = jest.spyOn(AbortSignal, 'timeout');
-    const fetch = jest
-      .spyOn(globalThis, 'fetch')
-      .mockResolvedValue({
-        ok: true,
-        json: async () => wrap([{ name: '飯', price: 100 }]),
-      });
+    const fetch = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => wrap([{ name: '飯', price: 100 }]),
+    });
     await new GeminiMenuExtractor().extract(
       [Buffer.from('image')],
       ['image/jpeg'],
@@ -76,7 +74,7 @@ describe('menu extractor providers and Gemini response handling', () => {
       Buffer.from('image').toString('base64'),
     );
     expect(body.generationConfig.responseFormat.text.mimeType).toBe(
-      'application/json',
+      'APPLICATION_JSON',
     );
   });
   it.each(['http', 'timeout', 'invalid'])(

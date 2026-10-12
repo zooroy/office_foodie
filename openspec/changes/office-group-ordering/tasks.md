@@ -32,18 +32,18 @@
 ## 5. 拍照辨識菜單（menu-extraction）
 
 - [x] 5.1 定義 `MenuExtractor` 介面，實作 `MockMenuExtractor`，以 `MENU_EXTRACTOR` 環境變數切換 provider；驗證：單元測試確認 mock 模式下注入的是 mock 實作
-- [ ] 5.2 實作 `GeminiMenuExtractor`（JSON Schema 結構化輸出、zod 驗證、30 秒逾時、錯誤轉換為 `EXTRACTION_FAILED`）；驗證：以真實 API key 對一張範例菜單照片手動測試，並對回應解析邏輯撰寫單元測試
-- [ ] 5.3 實作 `POST /menu-extractions`（multer memory storage、格式與大小檢查、1–5 張、不寫入任何儲存空間）；驗證：e2e 測試（mock 模式）涵蓋成功、PDF 被拒、超過 5 MB 被拒
-- [ ] 5.4 實作 DB-backed 的每 IP 每日次數限制與全站每日上限，設定 `trust proxy`；驗證：e2e 測試確認第 6 次回傳 `EXTRACTION_LIMIT`
-- [ ] 5.5 前端實作拍照或選圖上傳（瀏覽器端壓縮到長邊 1600px）、辨識中狀態、可編輯的確認表格（可疑品項加上標示）、確認後批次寫入；失敗或超過上限時顯示訊息並提供「改為手動輸入」；驗證：mock 模式下走完上傳→修改→確認→菜單更新的流程
+- [x] 5.2 實作 `GeminiMenuExtractor`（JSON Schema 結構化輸出、zod 驗證、30 秒逾時、錯誤轉換為 `EXTRACTION_FAILED`）；驗證：以真實 API key 對一張範例菜單照片手動測試，並對回應解析邏輯撰寫單元測試
+- [x] 5.3 實作 `POST /menu-extractions`（multer memory storage、格式與大小檢查、1–5 張、不寫入任何儲存空間）；驗證：e2e 測試（mock 模式）涵蓋成功、PDF 被拒、超過 5 MB 被拒
+- [x] 5.4 實作 DB-backed 的每 IP 每日次數限制與全站每日上限，設定 `trust proxy`；驗證：e2e 測試確認第 6 次回傳 `EXTRACTION_LIMIT`
+- [x] 5.5 前端實作拍照或選圖上傳（瀏覽器端壓縮到長邊 1600px）、辨識中狀態、可編輯的確認表格（可疑品項加上標示）、確認後批次寫入；失敗或超過上限時顯示訊息並提供「改為手動輸入」；驗證：mock 模式下走完上傳→修改→確認→菜單更新的流程
 
 ## 6. 揪團與狀態流轉（group-order）
 
-- [ ] 6.1 實作狀態轉換表與 `transition()`；驗證：單元測試涵蓋所有合法轉換，以及數個非法轉換被拒
-- [ ] 6.2 實作 `POST /groups`（隨機 slug、管理 secret 只回傳一次）、`GET /groups?status=OPEN`、`GET /groups/:slug`（公開快照不含 secret 或 token）；驗證：e2e 測試確認回應中沒有 secret 欄位
-- [ ] 6.3 實作 `POST /groups/:slug/transitions`（發布時檢查菜單不為空）與 `PATCH /groups/:slug`（只有草稿狀態可以換餐廳）；驗證：e2e 測試涵蓋空菜單發布被拒、開放後換餐廳被拒、非主揪操作被拒
-- [ ] 6.4 前端實作首頁（開放中的揪團列表、開團按鈕）與開團流程（選擇或新增餐廳 → 填寫資訊 → 顯示分享連結與管理連結，並提醒保存管理連結）；驗證：手動完成一次開團
-- [ ] 6.5 前端實作主揪管理頁的狀態操作（發布、結單、已訂購、結案、取消，加上確認對話框）、編輯揪團資訊、分享連結 QR code；驗證：手動完成從草稿到結案的狀態流轉
+- [x] 6.1 實作狀態轉換表與 `transition()`；驗證：單元測試涵蓋所有合法轉換，以及數個非法轉換被拒
+- [x] 6.2 實作 `POST /groups`（隨機 slug、管理 secret 只回傳一次）、`GET /groups?status=OPEN`、`GET /groups/:slug`（公開快照不含 secret 或 token）；驗證：e2e 測試確認回應中沒有 secret 欄位
+- [x] 6.3 實作 `POST /groups/:slug/transitions`（發布時檢查菜單不為空）與 `PATCH /groups/:slug`（只有草稿狀態可以換餐廳）；驗證：e2e 測試涵蓋空菜單發布被拒、開放後換餐廳被拒、非主揪操作被拒
+- [x] 6.4 前端實作首頁（開放中的揪團列表、開團按鈕）與開團流程（選擇或新增餐廳 → 填寫資訊 → 顯示分享連結與管理連結，並提醒保存管理連結）；驗證：手動完成一次開團
+- [x] 6.5 前端實作主揪管理頁的狀態操作（發布、結單、已訂購、結案、取消，加上確認對話框）、編輯揪團資訊、分享連結 QR code；驗證：手動完成從草稿到結案的狀態流轉
 
 ## 7. 點餐（order-placement）
 

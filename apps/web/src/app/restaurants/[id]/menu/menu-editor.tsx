@@ -5,6 +5,7 @@ import { menuItemInputSchema } from '@office-foodie/shared';
 import type { RestaurantDto, MenuItemDto } from '@office-foodie/shared';
 import { apiRequest } from '@/lib/api';
 import { Button } from '@/components/ui/button';
+import { MenuExtraction } from '@/components/menu-extraction';
 
 type Menu = RestaurantDto & { items: MenuItemDto[] };
 export default function MenuPage({
@@ -137,7 +138,25 @@ export default function MenuPage({
           ))}
         </section>
       )}
-      <section className="rounded-xl border p-4">
+      {menu && (
+        <MenuExtraction
+          restaurantId={id}
+          onSaved={async () => {
+            setMenu(await apiRequest(`/restaurants/${id}`));
+          }}
+          onManual={() => {
+            document
+              .getElementById('manual-menu-form')
+              ?.scrollIntoView({ behavior: 'smooth' });
+            document
+              .querySelector<HTMLInputElement>(
+                '#manual-menu-form input[name="name"]',
+              )
+              ?.focus();
+          }}
+        />
+      )}
+      <section id="manual-menu-form" className="rounded-xl border p-4">
         <h2 className="mb-4 text-lg font-semibold">
           {editing ? '編輯品項' : '新增品項'}
         </h2>
