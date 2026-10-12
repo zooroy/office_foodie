@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { DatabaseModule } from './database/database.module.js';
 import { IdentityModule } from './identity/identity.module.js';
+import { RestaurantController } from './restaurants/restaurant.controller.js';
+import { MenuController } from './restaurants/menu.controller.js';
+import { ExtractionModule } from './extraction/extraction.module.js';
 
 @Module({
-  imports: [DatabaseModule, IdentityModule],
-  controllers: [AppController],
+  imports: [DatabaseModule, IdentityModule, ExtractionModule],
+  controllers: [AppController, RestaurantController, MenuController],
 })
 export class AppModule {}

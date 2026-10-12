@@ -24,14 +24,14 @@
 
 ## 4. 餐廳與菜單庫（restaurant-menu）
 
-- [ ] 4.1 實作餐廳 CRUD 與名稱搜尋 API；驗證：e2e 測試涵蓋建立、名稱必填、關鍵字篩選
-- [ ] 4.2 實作菜單品項的新增、修改、軟刪除，以及批次寫入（`PUT /restaurants/:id/items`）；驗證：e2e 測試涵蓋價格驗證（負數、小數被拒）與刪除後不再出現在菜單中
-- [ ] 4.3 前端實作餐廳列表與搜尋頁、新增餐廳表單；驗證：手機寬度（375px）下操作正常
-- [ ] 4.4 前端實作菜單編輯頁（依分類分組、逐筆新增編輯刪除）；驗證：手動新增 3 個品項後重新整理仍存在
+- [x] 4.1 實作餐廳 CRUD 與名稱搜尋 API；驗證：e2e 測試涵蓋建立、名稱必填、關鍵字篩選
+- [x] 4.2 實作菜單品項的新增、修改、軟刪除，以及批次寫入（`PUT /restaurants/:id/items`）；驗證：e2e 測試涵蓋價格驗證（負數、小數被拒）與刪除後不再出現在菜單中
+- [x] 4.3 前端實作餐廳列表與搜尋頁、新增餐廳表單；驗證：手機寬度（375px）下操作正常
+- [x] 4.4 前端實作菜單編輯頁（依分類分組、逐筆新增編輯刪除）；驗證：手動新增 3 個品項後重新整理仍存在
 
 ## 5. 拍照辨識菜單（menu-extraction）
 
-- [ ] 5.1 定義 `MenuExtractor` 介面，實作 `MockMenuExtractor`，以 `MENU_EXTRACTOR` 環境變數切換 provider；驗證：單元測試確認 mock 模式下注入的是 mock 實作
+- [x] 5.1 定義 `MenuExtractor` 介面，實作 `MockMenuExtractor`，以 `MENU_EXTRACTOR` 環境變數切換 provider；驗證：單元測試確認 mock 模式下注入的是 mock 實作
 - [ ] 5.2 實作 `GeminiMenuExtractor`（JSON Schema 結構化輸出、zod 驗證、30 秒逾時、錯誤轉換為 `EXTRACTION_FAILED`）；驗證：以真實 API key 對一張範例菜單照片手動測試，並對回應解析邏輯撰寫單元測試
 - [ ] 5.3 實作 `POST /menu-extractions`（multer memory storage、格式與大小檢查、1–5 張、不寫入任何儲存空間）；驗證：e2e 測試（mock 模式）涵蓋成功、PDF 被拒、超過 5 MB 被拒
 - [ ] 5.4 實作 DB-backed 的每 IP 每日次數限制與全站每日上限，設定 `trust proxy`；驗證：e2e 測試確認第 6 次回傳 `EXTRACTION_LIMIT`

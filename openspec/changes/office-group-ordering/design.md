@@ -119,6 +119,7 @@ GET    /health
 GET    /restaurants?q=             POST /restaurants
 GET    /restaurants/:id            PATCH /restaurants/:id
 POST   /restaurants/:id/items      PATCH/DELETE /menu-items/:id
+DELETE /restaurants/:id            (僅限未被任何揪團引用；包含歷史團的引用皆禁止刪除)
 PUT    /restaurants/:id/items      (確認辨識結果後批次寫入)
 POST   /menu-extractions           (multipart，回傳辨識結果，不寫入)
 

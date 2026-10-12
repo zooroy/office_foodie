@@ -57,3 +57,11 @@ npx --yes pnpm@10.28.2 --filter @office-foodie/api test
 ```
 
 CI 使用 PostgreSQL service container，透過相同的 app factory 驗證真實資料庫。
+
+## 菜單辨識 provider
+
+預設 `MENU_EXTRACTOR=mock`，不需要 API key，回傳固定測試品項與需人工確認的價格。
+Gemini provider 的真實驗證需先從 [Google AI Studio](https://aistudio.google.com/apikey) 建立 key，再於本機 `apps/api/.env` 設定 `GEMINI_API_KEY`。
+測試真實辨識時使用 `MENU_EXTRACTOR=gemini`；`GEMINI_MODEL` 可選擇帳號可用的模型，預設為 `gemini-3.8-flash`。
+實作依 [Gemini 結構化輸出文件](https://ai.google.dev/gemini-api/docs/generate-content/structured-output) 使用 JSON Schema；解析後再次套用 Zod 驗證，無法解析的價格保留為需人工確認。
+任務 5.2 需完成真實照片測試才可勾選，mock 與 stub 測試不代表真實辨識已通過。

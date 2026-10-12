@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -12,6 +13,9 @@ export default function Home() {
       </p>
       <div>
         <Button size="lg">揪團點餐</Button>
+        <Link href="/restaurants" className="ml-4 text-primary underline">
+          餐廳與菜單
+        </Link>
       </div>
     </main>
   );

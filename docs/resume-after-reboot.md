@@ -5,7 +5,7 @@
 ## 目前進度
 
 - 專案：`D:\roy_space\office_foodie`。
-- OpenSpec change：`office-group-ordering`，目前完成 13/52 項任務（第 1–3 階段）。
+- OpenSpec change：`office-group-ordering`，目前完成 18/52 項任務（第 1–4 階段及 5.1）。
 - pnpm monorepo、Nest API、Next.js + Tailwind + shadcn/ui 骨架已建立。
 - PostgreSQL 17.11 已安裝至 `.local/pgsql`；資料在 `.local/pgdata`。
 - 開發資料庫 `office_foodie`、測試資料庫 `office_foodie_test` 已建立。
@@ -19,8 +19,9 @@ Docker 問題已排除：資料檔確認位於 `D:\DockerData\DockerDesktopWSL`�
 Compose 的 PostgreSQL 與 API 為 healthy，web 已啟動。
 GitHub 權限已排除，已成功 push；CI run `38212020991` 執行成功。
 資料模型、共用 DTO、Postgres e2e factory、身份工具、Guard、加入/恢復身份 API 與前端憑證工具均已完成。
-下一項 4.1 的「餐廳 CRUD」未定義刪除規則，已詢問使用者：拒絕刪除已有揪團的餐廳、軟刪除，或本次不提供刪除。
-在使用者回覆前，尚未開始刪除餐廳實作。
+使用者已確認：任何揪團引用餐廳時禁止刪除，包含結案與取消。餐廳 CRUD、搜尋、菜單 API、手機前端均已完成。
+Mock provider 已完成；5.2 Gemini 的程式與解析測試已建立，但本機缺少 `GEMINI_API_KEY`，尚未用真實 API key 驗證範例照片，所以 5.2 保持未完成。
+使用者需將 key 設定於本機 `apps/api/.env`（不提交 Git），再繼續 apply 驗證真實辨識。
 
 以下為搬移前的故障紀錄：
 

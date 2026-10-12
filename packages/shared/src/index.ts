@@ -10,6 +10,7 @@ export const groupStatusSchema = z.enum([
 ]);
 export const paymentStatusSchema = z.enum(['UNPAID', 'REPORTED', 'CONFIRMED']);
 export const errorCodeSchema = z.enum([
+  'RESTAURANT_IN_USE',
   'VALIDATION_ERROR',
   'NOT_FOUND',
   'INTERNAL_ERROR',
