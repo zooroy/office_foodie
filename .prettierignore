@@ -1,0 +1,10 @@
+node_modules
+pnpm-lock.yaml
+dist
+.next
+coverage
+.agents
+.claude
+openspec
+.local
+.scaffold

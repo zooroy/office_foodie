@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_USER: office_foodie
+      POSTGRES_PASSWORD: office_foodie
+      POSTGRES_DB: office_foodie
+    ports:
+      - '127.0.0.1:5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U office_foodie -d office_foodie']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      PORT: '3001'
+      DATABASE_URL: postgresql://office_foodie:office_foodie@postgres:5432/office_foodie?schema=public
+      DIRECT_URL: postgresql://office_foodie:office_foodie@postgres:5432/office_foodie?schema=public
+      CORS_ORIGIN: http://localhost:3000
+      MENU_EXTRACTOR: mock
+      DEMO_MODE: 'false'
+    ports:
+      - '127.0.0.1:3001:3001'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:3001
+        NEXT_PUBLIC_DEMO_MODE: 'false'
+    ports:
+      - '127.0.0.1:3000:3000'
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

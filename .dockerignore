@@ -1,0 +1,12 @@
+.git
+.agents
+.claude
+.local
+.scaffold
+**/node_modules
+**/dist
+**/.next
+**/coverage
+**/.env
+**/.env.*
+**/*.tsbuildinfo

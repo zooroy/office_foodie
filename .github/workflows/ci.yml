@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-bookworm
+        env:
+          POSTGRES_USER: office_foodie
+          POSTGRES_PASSWORD: office_foodie
+          POSTGRES_DB: office_foodie_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U office_foodie -d office_foodie_test"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      DATABASE_URL: postgresql://office_foodie:office_foodie@127.0.0.1:5432/office_foodie_test?schema=public
+      DIRECT_URL: postgresql://office_foodie:office_foodie@127.0.0.1:5432/office_foodie_test?schema=public
+      TEST_DATABASE_URL: postgresql://office_foodie:office_foodie@127.0.0.1:5432/office_foodie_test?schema=public
+      MENU_EXTRACTOR: mock
+      CORS_ORIGIN: http://localhost:3000
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+      NEXT_PUBLIC_DEMO_MODE: 'false'
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm -r lint
+      - name: Typecheck
+        run: pnpm -r typecheck
+      - name: Migrate test database
+        run: pnpm --filter @office-foodie/api db:deploy
+      - name: Test
+        run: pnpm -r --if-present test
+      - name: Build
+        run: pnpm -r --if-present build
