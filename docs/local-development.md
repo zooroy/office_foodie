@@ -25,6 +25,8 @@ npx --yes pnpm@10.28.2 --filter @office-foodie/api db:status
 
 ## 啟動應用程式
 
+首次安裝或共用 DTO 修改後，先執行 `npx --yes pnpm@10.28.2 --filter @office-foodie/shared build`。
+
 在兩個終端分別執行：
 
 ```powershell
@@ -44,3 +46,14 @@ PostgreSQL 使用 EDB 的 Windows 二進位套件，來源見 [PostgreSQL 官方
 安裝 Docker 並啟動引擎後，可在根目錄執行 `docker compose up --build`。Compose 使用自己的 PostgreSQL volume，主機連線埠是 `5433`，與前述本機 PostgreSQL 分開。API 使用 mock 辨識模式，不需要 Gemini API key。
 
 容器版前後端同樣使用 `3000` 與 `3001`，啟動前先停止佔用這兩個埠的本機前後端程序。
+
+## API 測試
+
+`apps/api/.env` 的 `TEST_DATABASE_URL` 必須連到獨立且名稱以 `_test` 結尾的資料庫。
+測試 app factory 會先套用 migration，每個 e2e 測試前清空六張應用資料表，並拒絕使用未標示為測試用途的資料庫。
+
+```powershell
+npx --yes pnpm@10.28.2 --filter @office-foodie/api test
+```
+
+CI 使用 PostgreSQL service container，透過相同的 app factory 驗證真實資料庫。

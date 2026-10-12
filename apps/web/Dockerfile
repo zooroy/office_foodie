@@ -10,7 +10,7 @@ ARG NEXT_PUBLIC_API_URL=http://localhost:3001
 ARG NEXT_PUBLIC_DEMO_MODE=false
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_DEMO_MODE=$NEXT_PUBLIC_DEMO_MODE
-RUN pnpm --filter @office-foodie/web build
+RUN pnpm --filter @office-foodie/shared build && pnpm --filter @office-foodie/web build
 WORKDIR /app/apps/web
 ENV NODE_ENV=production
 EXPOSE 3000

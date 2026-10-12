@@ -7,3 +7,101 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+enum GroupStatus {
+  DRAFT
+  OPEN
+  CLOSED
+  ORDERED
+  SETTLED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  REPORTED
+  CONFIRMED
+}
+
+model Restaurant {
+  id        String     @id @default(cuid())
+  name      String
+  phone     String?
+  address   String?
+  createdAt DateTime   @default(now())
+  items     MenuItem[]
+  groups    Group[]
+}
+
+model MenuItem {
+  id           String      @id @default(cuid())
+  restaurantId String
+  name         String
+  price        Int
+  category     String?
+  sortOrder    Int         @default(0)
+  deletedAt    DateTime?
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+  orders       OrderItem[]
+
+  @@index([restaurantId, deletedAt, sortOrder])
+}
+
+model Group {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  title           String
+  restaurantId    String
+  status          GroupStatus   @default(DRAFT)
+  deadlineAt      DateTime?
+  note            String?
+  adminSecretHash String
+  isDemo          Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  restaurant      Restaurant    @relation(fields: [restaurantId], references: [id])
+  participants    Participant[]
+
+  @@index([status, createdAt])
+  @@index([restaurantId])
+}
+
+model Participant {
+  id            String        @id @default(cuid())
+  groupId       String
+  nickname      String
+  nicknameKey   String
+  tokenHash     String
+  joinedAt      DateTime      @default(now())
+  adjustment    Int           @default(0)
+  paymentStatus PaymentStatus @default(UNPAID)
+  group         Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  orders        OrderItem[]
+
+  @@unique([groupId, nicknameKey])
+  @@index([groupId, tokenHash])
+}
+
+model OrderItem {
+  id                String      @id @default(cuid())
+  participantId     String
+  menuItemId        String?
+  nameSnapshot      String
+  unitPriceSnapshot Int
+  quantity          Int
+  note              String?
+  createdAt         DateTime    @default(now())
+  participant       Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  menuItem          MenuItem?   @relation(fields: [menuItemId], references: [id], onDelete: SetNull)
+
+  @@index([participantId])
+  @@index([menuItemId])
+}
+
+model ExtractionUsage {
+  ip    String
+  date  DateTime @db.Date
+  count Int      @default(0)
+
+  @@id([ip, date])
+  @@index([date])
+}

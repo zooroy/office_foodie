@@ -11,16 +11,16 @@
 
 ## 2. 資料模型與共用型別
 
-- [ ] 2.1 依 design D3 撰寫 Prisma schema（Restaurant、MenuItem、Group、Participant、OrderItem、ExtractionUsage 及 enum）並產生 migration；驗證：`prisma migrate dev` 成功，unique 約束 `(groupId, nicknameKey)` 存在
-- [ ] 2.2 在 `packages/shared` 定義 zod schema 與 DTO 型別（餐廳、品項、揪團、點餐、付款、錯誤碼）與即時事件名稱與 payload 型別；驗證：web 與 api 都能 import 且 typecheck 通過
-- [ ] 2.3 建立 e2e 測試基礎（獨立的測試資料庫、每個測試前清空資料表、supertest app factory）；驗證：一個呼叫 `/health` 的 e2e 測試通過
+- [x] 2.1 依 design D3 撰寫 Prisma schema（Restaurant、MenuItem、Group、Participant、OrderItem、ExtractionUsage 及 enum）並產生 migration；驗證：`prisma migrate dev` 成功，unique 約束 `(groupId, nicknameKey)` 存在
+- [x] 2.2 在 `packages/shared` 定義 zod schema 與 DTO 型別（餐廳、品項、揪團、點餐、付款、錯誤碼）與即時事件名稱與 payload 型別；驗證：web 與 api 都能 import 且 typecheck 通過
+- [x] 2.3 建立 e2e 測試基礎（獨立的測試資料庫、每個測試前清空資料表、supertest app factory）；驗證：一個呼叫 `/health` 的 e2e 測試通過
 
 ## 3. 參與者身份與權限（participant-identity）
 
-- [ ] 3.1 實作 token / secret 產生、SHA-256 雜湊與 constant-time 比對工具，以及暱稱正規化；驗證：單元測試涵蓋暱稱 trim、大小寫、空白與長度限制
-- [ ] 3.2 實作 `ParticipantGuard`（`X-Participant-Token`）與 `AdminGuard`（`X-Admin-Secret`）；驗證：e2e 測試確認錯誤或缺少憑證時回傳 401/403
-- [ ] 3.3 實作 `POST /groups/:slug/participants` 與 `GET /groups/:slug/me`；驗證：e2e 測試涵蓋成功加入、暱稱重複被拒、以 token 取回身份
-- [ ] 3.4 前端實作依 slug 保存 token 的 localStorage 工具（包在 try/catch 中），以及從 URL fragment 讀取管理 secret 的邏輯；API client 自動帶上對應 header；驗證：元件測試或手動確認重新整理後身份仍保留
+- [x] 3.1 實作 token / secret 產生、SHA-256 雜湊與 constant-time 比對工具，以及暱稱正規化；驗證：單元測試涵蓋暱稱 trim、大小寫、空白與長度限制
+- [x] 3.2 實作 `ParticipantGuard`（`X-Participant-Token`）與 `AdminGuard`（`X-Admin-Secret`）；驗證：e2e 測試確認錯誤或缺少憑證時回傳 401/403
+- [x] 3.3 實作 `POST /groups/:slug/participants` 與 `GET /groups/:slug/me`；驗證：e2e 測試涵蓋成功加入、暱稱重複被拒、以 token 取回身份
+- [x] 3.4 前端實作依 slug 保存 token 的 localStorage 工具（包在 try/catch 中），以及從 URL fragment 讀取管理 secret 的邏輯；API client 自動帶上對應 header；驗證：元件測試或手動確認重新整理後身份仍保留
 
 ## 4. 餐廳與菜單庫（restaurant-menu）
 

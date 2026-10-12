@@ -11,7 +11,7 @@ COPY packages/shared ./packages/shared
 COPY apps/api ./apps/api
 COPY apps/web/package.json ./apps/web/package.json
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @office-foodie/api build
+RUN pnpm --filter @office-foodie/shared build && pnpm --filter @office-foodie/api build
 WORKDIR /app/apps/api
 ENV NODE_ENV=production
 ENV PORT=3001

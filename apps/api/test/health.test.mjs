@@ -1,24 +1,30 @@
 import 'reflect-metadata';
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
-import { Test } from '@nestjs/testing';
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterAll,
+} from '@jest/globals';
 import request from 'supertest';
-import { AppModule } from '../dist/app.module.js';
-import { configureApp } from '../dist/configure-app.js';
+import { createTestApp } from './app-factory.mjs';
 
 describe('API health and error responses', () => {
   let app;
+  let fixture;
 
   beforeAll(async () => {
-    const module = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-    app = module.createNestApplication();
-    configureApp(app);
-    await app.init();
+    fixture = await createTestApp();
+    app = fixture.app;
+  });
+
+  beforeEach(async () => {
+    await fixture.reset();
   });
 
   afterAll(async () => {
-    await app.close();
+    await fixture?.close();
   });
 
   it('returns a healthy response', async () => {
@@ -26,6 +32,13 @@ describe('API health and error responses', () => {
       .get('/health')
       .expect(200)
       .expect({ status: 'ok' });
+  });
+
+  it('connects to a real isolated database and clears prior data', async () => {
+    await fixture.prisma.restaurant.create({ data: { name: '隔離測試餐廳' } });
+    expect(await fixture.prisma.restaurant.count()).toBe(1);
+    await fixture.reset();
+    expect(await fixture.prisma.restaurant.count()).toBe(0);
   });
 
   it('returns the unified error format for an unknown route', async () => {

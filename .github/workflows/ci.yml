@@ -45,7 +45,7 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
       - name: Lint
-        run: pnpm -r lint
+        run: pnpm --filter @office-foodie/shared build && pnpm --filter @office-foodie/api exec prisma generate && pnpm -r lint
       - name: Typecheck
         run: pnpm -r typecheck
       - name: Migrate test database
