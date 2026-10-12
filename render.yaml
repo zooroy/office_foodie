@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: office-foodie-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: MENU_EXTRACTOR
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.8-flash
+      - key: DEMO_MODE
+        value: 'true'
+      - key: DEMO_RESET_TOKEN
+        generateValue: true

@@ -5,7 +5,7 @@
 ## 目前進度
 
 - 專案：`D:\roy_space\office_foodie`。
-- OpenSpec change：`office-group-ordering`，目前完成 39/52 項任務（第 1–9 階段）。
+- OpenSpec change：`office-group-ordering`，目前完成 44/52 項任務（第 1–9 階段與 10.1–10.5）。
 - pnpm monorepo、Nest API、Next.js + Tailwind + shadcn/ui 骨架已建立。
 - PostgreSQL 17.11 已安裝至 `.local/pgsql`；資料在 `.local/pgdata`。
 - 開發資料庫 `office_foodie`、測試資料庫 `office_foodie_test` 已建立。
@@ -23,8 +23,11 @@ GitHub 權限已排除，已成功 push；CI run `38212020991` 執行成功。
 Gemini 已以真實 API key 驗證範例菜單，辨識排骨飯 110 元、雞腿飯 120 元。上傳、DB 每日次數限制、前端壓縮與人工確認、揪團 API 與主揪 UI 均已完成。
 使用者已確認負數金額規則：拒絕點餐變更，提示主揪先調整折扣；原訂單與折扣保持不變。
 點餐、競態鎖定、Socket.IO 即時同步、統計、調整額與付款均已完成。
-最新驗證：15 個測試 suite、126 項測試通過；手機兩視窗驗證即時同步、斷線恢復、複製彙總與付款確認通過；前端正式建置成功。
-下一步第 10 階段：示範資料、重置、模擬下單、後端喚醒畫面。部署服務資料仍待提供。
+最新驗證：16 個測試 suite、129 項測試通過；手機兩視窗驗證即時同步、斷線恢復、複製彙總與付款確認通過；前端正式建置成功。
+示範資料可重複載入、受保護的重置 API、5 筆模擬下單與模式入口、3 秒喚醒與 90 秒逾時重試均已驗證。
+下一步需使用者建立 Neon、Render、Vercel（使用者已表示尚未建立，希望逐步引導）。
+`render.yaml`、`apps/web/vercel.json`、`.github/workflows/demo-reset.yml` 已準備；詳見 `docs/deployment.md`。
+10.6 的實際 workflow dispatch 需部署網址與 GitHub secrets，尚未勾選。11.1–12.3 亦尚未完成。
 
 以下為搬移前的故障紀錄：
 

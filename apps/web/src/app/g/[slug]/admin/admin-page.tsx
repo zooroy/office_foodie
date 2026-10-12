@@ -96,7 +96,8 @@ export default function AdminPage({
       setBusy(false);
     }
   }
-  if (!group) return <main className="p-4">{error || queryError || '載入中…'}</main>;
+  if (!group)
+    return <main className="p-4">{error || queryError || '載入中…'}</main>;
   const final = group.status === 'SETTLED' || group.status === 'CANCELLED';
   const next = actions[group.status];
   const deadline = group.deadlineAt
@@ -116,6 +117,30 @@ export default function AdminPage({
         {group.title}・主揪管理
       </h1>
       <p>狀態：{statusLabels[group.status]}</p>
+      {process.env.NEXT_PUBLIC_DEMO_MODE === 'true' && (
+        <section className="space-y-2 rounded-xl bg-accent p-4">
+          <p>開兩個視窗試試看，即時觀察同事點餐。</p>
+          <Button
+            disabled={busy || group.status !== 'OPEN'}
+            onClick={async () => {
+              setBusy(true);
+              setError('');
+              try {
+                await apiRequest(`/demo/groups/${slug}/simulate`, {
+                  slug,
+                  method: 'POST',
+                });
+              } catch (e) {
+                setError(e instanceof Error ? e.message : '無法開始模擬');
+              } finally {
+                setBusy(false);
+              }
+            }}
+          >
+            模擬同事下單
+          </Button>
+        </section>
+      )}
       <GroupSummary group={group} />
       <AdminOrders
         group={group}

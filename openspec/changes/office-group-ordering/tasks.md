@@ -68,11 +68,11 @@
 
 ## 10. Demo 體驗（demo-experience）
 
-- [ ] 10.1 撰寫 `prisma/seed.ts`（3 家以上餐廳與完整菜單、固定 slug 的開放 demo 揪團（至少 5 位參與者）、已結單且部分付款的揪團），可重複執行；驗證：`prisma db seed` 執行兩次都成功，資料正確
-- [ ] 10.2 實作 `DEMO_MODE` 開關，以及受 `X-Demo-Reset-Token` 保護的 `POST /demo/reset`（重用 seed 邏輯）；驗證：e2e 測試確認沒有 token 時被拒、demo 模式關閉時回傳 404、重置後 demo 揪團回到開放狀態
-- [ ] 10.3 實作 `POST /demo/groups/:slug/simulate`：每 2–4 秒以模擬參與者下一筆隨機點餐，共 5 筆，只限開放狀態，同一團同時只能有一個模擬；驗證：e2e 測試使用 fake timers 確認產生 5 筆點餐，結單狀態下被拒
-- [ ] 10.4 前端在 demo 模式下於首頁顯示「以主揪身份體驗」入口、在管理頁顯示「模擬同事下單」按鈕，並提示「開兩個視窗試試看」；驗證：`NEXT_PUBLIC_DEMO_MODE=false` 時這些入口都不出現
-- [ ] 10.5 前端實作後端喚醒畫面（3 秒內 `/health` 沒有回應就顯示、每 3 秒重試、90 秒逾時顯示重試按鈕、就緒後自動進入原頁面）；驗證：本機先停掉 api 再開啟 web，確認畫面依序出現，啟動 api 後自動進入
+- [x] 10.1 撰寫 `prisma/seed.ts`（3 家以上餐廳與完整菜單、固定 slug 的開放 demo 揪團（至少 5 位參與者）、已結單且部分付款的揪團），可重複執行；驗證：`prisma db seed` 執行兩次都成功，資料正確
+- [x] 10.2 實作 `DEMO_MODE` 開關，以及受 `X-Demo-Reset-Token` 保護的 `POST /demo/reset`（重用 seed 邏輯）；驗證：e2e 測試確認沒有 token 時被拒、demo 模式關閉時回傳 404、重置後 demo 揪團回到開放狀態
+- [x] 10.3 實作 `POST /demo/groups/:slug/simulate`：每 2–4 秒以模擬參與者下一筆隨機點餐，共 5 筆，只限開放狀態，同一團同時只能有一個模擬；驗證：e2e 測試使用 fake timers 確認產生 5 筆點餐，結單狀態下被拒
+- [x] 10.4 前端在 demo 模式下於首頁顯示「以主揪身份體驗」入口、在管理頁顯示「模擬同事下單」按鈕，並提示「開兩個視窗試試看」；驗證：`NEXT_PUBLIC_DEMO_MODE=false` 時這些入口都不出現
+- [x] 10.5 前端實作後端喚醒畫面（3 秒內 `/health` 沒有回應就顯示、每 3 秒重試、90 秒逾時顯示重試按鈕、就緒後自動進入原頁面）；驗證：本機先停掉 api 再開啟 web，確認畫面依序出現，啟動 api 後自動進入
 - [ ] 10.6 建立 GitHub Actions 排程 workflow，每日呼叫 `/demo/reset`；驗證：以 `workflow_dispatch` 手動觸發一次並成功
 
 ## 11. 部署

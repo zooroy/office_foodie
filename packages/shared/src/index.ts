@@ -1,4 +1,6 @@
 import { z } from 'zod';
+export const DEMO_SLUG = 'demo-lunch';
+export const DEMO_ADMIN_SECRET = 'office-foodie-public-demo';
 
 export const groupStatusSchema = z.enum([
   'DRAFT',

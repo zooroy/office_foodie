@@ -16,4 +16,4 @@ WORKDIR /app/apps/api
 ENV NODE_ENV=production
 ENV PORT=3001
 EXPOSE 3001
-CMD ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/main.js"]
+CMD ["node", "scripts/start.mjs"]

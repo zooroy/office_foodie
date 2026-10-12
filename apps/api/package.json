@@ -2,6 +2,9 @@
   "name": "@office-foodie/api",
   "version": "0.0.0",
   "private": true,
+  "prisma": {
+    "seed": "node --env-file-if-exists=.env prisma/seed.ts"
+  },
   "scripts": {
     "test:gemini": "node --env-file-if-exists=.env test/verify-gemini-live.mjs",
     "test": "pnpm --filter @office-foodie/shared build && pnpm build && node --env-file-if-exists=.env --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",

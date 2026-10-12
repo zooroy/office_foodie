@@ -6,6 +6,7 @@ import {
   Delete,
   ForbiddenException,
   HttpCode,
+  Injectable,
   NotFoundException,
   Param,
   Patch,
@@ -51,9 +52,8 @@ async function ensureAmount(
       message: '這次變更會使應付金額小於 0，請主揪先調整折扣',
     });
 }
-@Controller()
-@UseGuards(OrderActorGuard)
-export class OrderController {
+@Injectable()
+export class OrderService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly events: GroupEvents,
@@ -68,8 +68,7 @@ export class OrderController {
       });
     return group;
   }
-  @Post('groups/:slug/orders')
-  async create(@Body() body: OrderDto, @Req() request: IdentityRequest) {
+  async create(body: OrderDto, request: IdentityRequest) {
     const result = await this.prisma.$transaction(async (tx) => {
       const group = await this.lock(tx, request);
       const participantId = request.isAdmin
@@ -143,12 +142,7 @@ export class OrderController {
       });
     return order;
   }
-  @Patch('orders/:id')
-  async update(
-    @Param('id') id: string,
-    @Body() body: UpdateOrderDto,
-    @Req() request: IdentityRequest,
-  ) {
+  async update(id: string, body: UpdateOrderDto, request: IdentityRequest) {
     const result = await this.prisma.$transaction(async (tx) => {
       const order = await this.existing(tx, id, request);
       await ensureAmount(
@@ -162,14 +156,35 @@ export class OrderController {
     await this.events.publish('order.changed', request.group.slug);
     return result;
   }
-  @Delete('orders/:id')
-  @HttpCode(204)
-  async remove(@Param('id') id: string, @Req() request: IdentityRequest) {
+  async remove(id: string, request: IdentityRequest) {
     await this.prisma.$transaction(async (tx) => {
       const order = await this.existing(tx, id, request);
       await ensureAmount(tx, order.participantId, id, 0);
       await tx.orderItem.delete({ where: { id } });
     });
     await this.events.publish('order.changed', request.group.slug);
+  }
+}
+
+@Controller()
+@UseGuards(OrderActorGuard)
+export class OrderController {
+  constructor(private readonly orders: OrderService) {}
+  @Post('groups/:slug/orders')
+  create(@Body() body: OrderDto, @Req() request: IdentityRequest) {
+    return this.orders.create(body, request);
+  }
+  @Patch('orders/:id')
+  update(
+    @Param('id') id: string,
+    @Body() body: UpdateOrderDto,
+    @Req() request: IdentityRequest,
+  ) {
+    return this.orders.update(id, body, request);
+  }
+  @Delete('orders/:id')
+  @HttpCode(204)
+  remove(@Param('id') id: string, @Req() request: IdentityRequest) {
+    return this.orders.remove(id, request);
   }
 }

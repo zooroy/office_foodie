@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import type { GroupSnapshot } from '@office-foodie/shared';
+import { DEMO_SLUG, DEMO_ADMIN_SECRET } from '@office-foodie/shared';
 import { apiRequest } from '@/lib/api';
 import Link from 'next/link';
 
@@ -38,6 +39,18 @@ export default function Home() {
         </p>
       )}
       <section aria-label="開放中的揪團" className="space-y-3">
+        {process.env.NEXT_PUBLIC_DEMO_MODE === 'true' && (
+          <div className="space-y-2 rounded-xl bg-accent p-4">
+            <Link
+              href={`/g/${DEMO_SLUG}/admin#${DEMO_ADMIN_SECRET}`}
+              className="text-primary underline"
+            >
+              以主揪身份體驗
+            </Link>
+            <p>開兩個視窗試試看：一個管理揪團，一個觀看點餐即時更新。</p>
+            <p className="text-sm">示範資料會每日重置。</p>
+          </div>
+        )}
         <h2 className="text-xl font-semibold">開放中的揪團</h2>
         {groups.length ? (
           groups.map((group) => (

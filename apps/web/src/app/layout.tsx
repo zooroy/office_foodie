@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { QueryProvider } from '@/components/query-provider';
+import { BackendGate } from '@/components/backend-gate';
 
 export const metadata: Metadata = {
   title: 'Office Foodie｜辦公室揪團點餐',
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="zh-Hant">
       <body className="min-h-screen antialiased">
-        <QueryProvider>{children}</QueryProvider>
+        <BackendGate>
+          <QueryProvider>{children}</QueryProvider>
+        </BackendGate>
       </body>
     </html>
   );

@@ -6,7 +6,9 @@ import { RestaurantController } from './restaurants/restaurant.controller.js';
 import { MenuController } from './restaurants/menu.controller.js';
 import { ExtractionModule } from './extraction/extraction.module.js';
 import { GroupModule } from './groups/group.module.js';
-import { OrderController } from './orders/order.controller.js';
+import { OrderController, OrderService } from './orders/order.controller.js';
+import { DemoController, DemoEnabledGuard } from './demo/demo.controller.js';
+import { SimulationService } from './demo/simulation.service.js';
 import { RealtimeModule } from './realtime/group.gateway.js';
 import { SummaryController } from './summary/summary.controller.js';
 
@@ -24,6 +26,8 @@ import { SummaryController } from './summary/summary.controller.js';
     MenuController,
     OrderController,
     SummaryController,
+    DemoController,
   ],
+  providers: [OrderService, SimulationService, DemoEnabledGuard],
 })
 export class AppModule {}

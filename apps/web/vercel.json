@@ -1,0 +1,5 @@
+{
+  "framework": "nextjs",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "cd ../.. && pnpm --filter @office-foodie/shared build && pnpm --filter @office-foodie/web build"
+}
