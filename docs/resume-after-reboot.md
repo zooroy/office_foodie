@@ -17,7 +17,9 @@
 
 Docker 問題已排除：資料檔確認位於 `D:\DockerData\DockerDesktopWSL`，
 Compose 的 PostgreSQL 與 API 為 healthy，web 已啟動。
-接著完成任務 1.6 的 GitHub Actions 驗證。
+任務 1.6 卡在 GitHub 權限：本機已建立初始 commit `5ce561b`，但 push 被拒絕（HTTP 403）。
+目前 Git 登入帳號為 `brighta1003`，沒有 `zooroy/office_foodie` 的寫入權限。
+需切換為有權限的帳號，或由 repository 擁有者加入 `brighta1003` 為 collaborator；完成後重試 push 與 CI 驗證。
 
 以下為搬移前的故障紀錄：
 
@@ -27,7 +29,7 @@ Compose 的 PostgreSQL 與 API 為 healthy，web 已啟動。
 需先透過 Docker Desktop 的 Settings → Resources → Advanced → Disk image location
 將 Docker 資料移至 D 槽，再重啟引擎並重跑 Compose 驗證。
 
-Git 遠端已設定為 `https://github.com/zooroy/office_foodie.git`，尚未 commit 或 push。
+Git 遠端已設定為 `https://github.com/zooroy/office_foodie.git`；已 commit，尚未成功 push。
 CI workflow 已建立，本機 Jest 2 個 suite／8 個測試、lint、typecheck 均通過。
 故障發生時任務 1.5 與 1.6 尚未勾選；目前 1.5 已驗證完成，1.6 待 GitHub Actions 驗證。
 
