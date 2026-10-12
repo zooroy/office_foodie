@@ -12,7 +12,8 @@ import type {
 } from '@office-foodie/shared';
 import { PrismaService } from '../database/prisma.service.js';
 import { generateCredential, hashCredential } from '../identity/credentials.js';
-import { publicParticipant } from '../identity/participant.controller.js';
+import { publicParticipant } from '../identity/public-participant.js';
+import { GroupEvents } from '../realtime/group-events.js';
 import { transition } from './status.js';
 
 export async function lockGroup(tx: Prisma.TransactionClient, slug: string) {
@@ -31,7 +32,10 @@ export function assertMutable(status: GroupStatus) {
 }
 @Injectable()
 export class GroupService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly events: GroupEvents,
+  ) {}
   async create(input: GroupInput) {
     if (
       !(await this.prisma.restaurant.findUnique({
@@ -119,6 +123,7 @@ export class GroupService {
         });
       await tx.group.update({ where: { id: group.id }, data: { status: to } });
     });
+    await this.events.publish('group.updated', slug);
     return this.snapshot(slug);
   }
   async update(slug: string, input: Partial<GroupInput>) {
@@ -143,6 +148,7 @@ export class GroupService {
       }
       await tx.group.update({ where: { id: group.id }, data: input });
     });
+    await this.events.publish('group.updated', slug);
     return this.snapshot(slug);
   }
 }

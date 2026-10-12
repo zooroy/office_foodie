@@ -2,14 +2,13 @@
 import { use, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
-import type {
-  GroupSnapshot,
-  GroupStatus,
-  RestaurantDto,
-} from '@office-foodie/shared';
+import type { GroupStatus, RestaurantDto } from '@office-foodie/shared';
 import { apiRequest } from '@/lib/api';
 import { captureAdminSecret } from '@/lib/identity';
 import { Button } from '@/components/ui/button';
+import { useGroup } from '@/lib/use-group';
+import { AdminOrders } from '@/components/admin-orders';
+import { GroupSummary } from '@/components/group-summary';
 const statusLabels: Record<GroupStatus, string> = {
   DRAFT: '草稿',
   OPEN: '開放',
@@ -38,8 +37,8 @@ export default function AdminPage({
 }) {
   const { slug } = use(params);
   const [restaurants, setRestaurants] = useState<RestaurantDto[]>([]);
-  const [group, setGroup] = useState<GroupSnapshot | null>(null),
-    [error, setError] = useState(''),
+  const { group, setGroup, error: queryError } = useGroup(slug);
+  const [error, setError] = useState(''),
     [busy, setBusy] = useState(false),
     [origin, setOrigin] = useState('');
   useEffect(() => {
@@ -48,9 +47,6 @@ export default function AdminPage({
       setOrigin(window.location.origin);
       if (!secret) setError('請使用建立揪團時的管理連結取得權限');
     });
-    apiRequest<GroupSnapshot>(`/groups/${slug}`)
-      .then(setGroup)
-      .catch((e) => setError(e.message));
     apiRequest<RestaurantDto[]>('/restaurants')
       .then(setRestaurants)
       .catch((e) => setError(e.message));
@@ -100,7 +96,7 @@ export default function AdminPage({
       setBusy(false);
     }
   }
-  if (!group) return <main className="p-4">{error || '載入中…'}</main>;
+  if (!group) return <main className="p-4">{error || queryError || '載入中…'}</main>;
   const final = group.status === 'SETTLED' || group.status === 'CANCELLED';
   const next = actions[group.status];
   const deadline = group.deadlineAt
@@ -120,6 +116,13 @@ export default function AdminPage({
         {group.title}・主揪管理
       </h1>
       <p>狀態：{statusLabels[group.status]}</p>
+      <GroupSummary group={group} />
+      <AdminOrders
+        group={group}
+        onChanged={async () => {
+          setGroup(await apiRequest(`/groups/${slug}`));
+        }}
+      />
       {error && (
         <p role="alert" className="text-red-700">
           {error}

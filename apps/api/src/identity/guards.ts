@@ -12,6 +12,7 @@ import { PrismaService } from '../database/prisma.service.js';
 import { matchesCredential, hashCredential } from './credentials.js';
 
 export interface IdentityRequest extends Request {
+  isAdmin?: boolean;
   group: Group;
   participant?: Participant;
 }
@@ -89,6 +90,25 @@ export class AdminGuard implements CanActivate {
         code: 'FORBIDDEN',
         message: '主揪憑證無效',
       });
+    }
+    return true;
+  }
+}
+
+@Injectable()
+export class OrderActorGuard implements CanActivate {
+  constructor(
+    private readonly admin: AdminGuard,
+    private readonly participantGuard: ParticipantGuard,
+  ) {}
+  async canActivate(context: ExecutionContext) {
+    const request = context.switchToHttp().getRequest<IdentityRequest>();
+    if (request.get('X-Admin-Secret')) {
+      await this.admin.canActivate(context);
+      request.isAdmin = true;
+    } else {
+      await this.participantGuard.canActivate(context);
+      request.isAdmin = false;
     }
     return true;
   }

@@ -5,7 +5,7 @@
 ## 目前進度
 
 - 專案：`D:\roy_space\office_foodie`。
-- OpenSpec change：`office-group-ordering`，目前完成 27/52 項任務（第 1–6 階段）。
+- OpenSpec change：`office-group-ordering`，目前完成 39/52 項任務（第 1–9 階段）。
 - pnpm monorepo、Nest API、Next.js + Tailwind + shadcn/ui 骨架已建立。
 - PostgreSQL 17.11 已安裝至 `.local/pgsql`；資料在 `.local/pgdata`。
 - 開發資料庫 `office_foodie`、測試資料庫 `office_foodie_test` 已建立。
@@ -21,8 +21,10 @@ GitHub 權限已排除，已成功 push；CI run `38212020991` 執行成功。
 資料模型、共用 DTO、Postgres e2e factory、身份工具、Guard、加入/恢復身份 API 與前端憑證工具均已完成。
 使用者已確認：任何揪團引用餐廳時禁止刪除，包含結案與取消。餐廳 CRUD、搜尋、菜單 API、手機前端均已完成。
 Gemini 已以真實 API key 驗證範例菜單，辨識排骨飯 110 元、雞腿飯 120 元。上傳、DB 每日次數限制、前端壓縮與人工確認、揪團 API 與主揪 UI 均已完成。
-下一項 7.1 遇到規格衝突：已有負數折扣時，刪除或減少餐點可能導致應付金額小於 0。
-已詢問使用者採用「拒絕點餐變更，提示先調整折扣」或「自動縮減折扣至應付為 0」。在回覆前暫停點餐寫入實作。
+使用者已確認負數金額規則：拒絕點餐變更，提示主揪先調整折扣；原訂單與折扣保持不變。
+點餐、競態鎖定、Socket.IO 即時同步、統計、調整額與付款均已完成。
+最新驗證：15 個測試 suite、126 項測試通過；手機兩視窗驗證即時同步、斷線恢復、複製彙總與付款確認通過；前端正式建置成功。
+下一步第 10 階段：示範資料、重置、模擬下單、後端喚醒畫面。部署服務資料仍待提供。
 
 以下為搬移前的故障紀錄：
 
@@ -53,7 +55,7 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 
 1. 開啟 Docker Desktop，等待引擎啟動。
 2. 檢查 `wsl --list --verbose`、`docker version`、`docker run --rm hello-world`。
-3. Docker 就緒後，接續 `$openspec-apply-change office-group-ordering`，驗證任務 1.5。
+3. Docker 就緒後，接續 `$openspec-apply-change office-group-ordering`，從目前未完成任務接續。
 4. 如需本機 PostgreSQL，先在專案根目錄執行：
 
 ```powershell

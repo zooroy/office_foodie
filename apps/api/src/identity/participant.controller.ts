@@ -10,7 +10,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import type { Participant, OrderItem } from '@prisma/client';
+import { publicParticipant } from './public-participant.js';
+import { GroupEvents } from '../realtime/group-events.js';
 import { participantInputSchema } from '@office-foodie/shared';
 import type {
   ParticipantDto,
@@ -29,31 +30,12 @@ class JoinParticipantDto {
   static schema = participantInputSchema;
   nickname!: string;
 }
-export function publicParticipant(
-  participant: Participant & { orders: OrderItem[] },
-): ParticipantDto {
-  return {
-    id: participant.id,
-    nickname: participant.nickname,
-    joinedAt: participant.joinedAt.toISOString(),
-    adjustment: participant.adjustment,
-    paymentStatus: participant.paymentStatus,
-    orders: participant.orders.map((order) => ({
-      id: order.id,
-      participantId: order.participantId,
-      menuItemId: order.menuItemId,
-      nameSnapshot: order.nameSnapshot,
-      unitPriceSnapshot: order.unitPriceSnapshot,
-      quantity: order.quantity,
-      note: order.note,
-      createdAt: order.createdAt.toISOString(),
-    })),
-  };
-}
-
 @Controller('groups/:slug')
 export class ParticipantController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly events: GroupEvents,
+  ) {}
   @Post('participants')
   async join(
     @Param('slug') slug: string,
@@ -72,6 +54,7 @@ export class ParticipantController {
         },
         include: { orders: true },
       });
+      await this.events.publish('participant.joined', slug);
       return { participantToken, participant: publicParticipant(participant) };
     } catch (error) {
       if (
