@@ -7,7 +7,7 @@
 - [x] 1.3 以 create-next-app 建立 `apps/web`（App Router、TypeScript、Tailwind），安裝 shadcn/ui 並設定主色與圓角的 CSS 變數 token；驗證：首頁能顯示 shadcn Button
 - [x] 1.4 在 `apps/api` 設定 Prisma，`DATABASE_URL` / `DIRECT_URL` 分開；驗證：`prisma migrate dev` 能在本機 Postgres 建立空的 migration
 - [x] 1.5 撰寫 `docker-compose.yml`（postgres、api、web）與各 app 的 Dockerfile，api 預設使用 `MENU_EXTRACTOR=mock`；驗證：`docker compose up` 後瀏覽器可開啟 web，web 能打到 api 的 `/health`
-- [ ] 1.6 建立 `.github/workflows/ci.yml`：install → lint → typecheck → test（含 Postgres service container）→ build；驗證：push 到 GitHub 後 CI 通過
+- [x] 1.6 建立 `.github/workflows/ci.yml`：install → lint → typecheck → test（含 Postgres service container）→ build；驗證：push 到 GitHub 後 CI 通過
 
 ## 2. 資料模型與共用型別
 
