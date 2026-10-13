@@ -73,14 +73,14 @@
 - [x] 10.3 實作 `POST /demo/groups/:slug/simulate`：每 2–4 秒以模擬參與者下一筆隨機點餐，共 5 筆，只限開放狀態，同一團同時只能有一個模擬；驗證：e2e 測試使用 fake timers 確認產生 5 筆點餐，結單狀態下被拒
 - [x] 10.4 前端在 demo 模式下於首頁顯示「以主揪身份體驗」入口、在管理頁顯示「模擬同事下單」按鈕，並提示「開兩個視窗試試看」；驗證：`NEXT_PUBLIC_DEMO_MODE=false` 時這些入口都不出現
 - [x] 10.5 前端實作後端喚醒畫面（3 秒內 `/health` 沒有回應就顯示、每 3 秒重試、90 秒逾時顯示重試按鈕、就緒後自動進入原頁面）；驗證：本機先停掉 api 再開啟 web，確認畫面依序出現，啟動 api 後自動進入
-- [ ] 10.6 建立 GitHub Actions 排程 workflow，每日呼叫 `/demo/reset`；驗證：以 `workflow_dispatch` 手動觸發一次並成功
+- [x] 10.6 建立 GitHub Actions 排程 workflow，每日呼叫 `/demo/reset`；驗證：以 `workflow_dispatch` 手動觸發一次並成功
 
 ## 11. 部署
 
 - [x] 11.1 建立 Neon 資料庫，取得 pooled 與 direct 連線字串；驗證：從本機以 direct URL 執行 `prisma migrate deploy` 成功
 - [x] 11.2 部署 api 到 Render（Docker、啟動前執行 migration、設定環境變數：DB、`GEMINI_API_KEY`、`MENU_EXTRACTOR=gemini`、`CORS_ORIGIN`、`DEMO_MODE`、reset token），並執行 seed；驗證：公開網址的 `/health` 回傳 200
 - [x] 11.3 部署 web 到 Vercel（root directory 設為 `apps/web`，設定 `NEXT_PUBLIC_API_URL`、`NEXT_PUBLIC_DEMO_MODE`）；驗證：公開網址可開啟首頁並看到 demo 揪團
-- [ ] 11.4 在 GitHub 設定排程 workflow 需要的 secrets（API 網址、reset token）；驗證：手動觸發 reset workflow 成功
+- [x] 11.4 在 GitHub 設定排程 workflow 需要的 secrets（API 網址、reset token）；驗證：手動觸發 reset workflow 成功
 
 ## 12. 整合驗證與作品集文件
 

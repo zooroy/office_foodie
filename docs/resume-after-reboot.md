@@ -7,7 +7,7 @@ Render 與 Vercel 均已部署並驗證；舊的下課交接紀錄見 [resume-on
 ## 目前進度
 
 - 專案：`D:\roy_space\office_foodie`。
-- OpenSpec change：`office-group-ordering`，目前完成 47/52 項任務（第 1–9 階段、10.1–10.5 與 11.1–11.3）。
+- OpenSpec change：`office-group-ordering`，目前完成 49/52 項任務（第 1–11 階段）。
 - pnpm monorepo、Nest API、Next.js + Tailwind + shadcn/ui 骨架已建立。
 - PostgreSQL 17.11 已安裝至 `.local/pgsql`；資料在 `.local/pgdata`。
 - 開發資料庫 `office_foodie`、測試資料庫 `office_foodie_test` 已建立。
@@ -32,9 +32,10 @@ Neon 已建立，pooled 與 direct 連線已驗證，3 個 migration 套用成�
 Render API：`https://office-foodie-api.onrender.com`，健康檢查與示範資料皆正常。
 Vercel web：`https://office-foodie.vercel.app`；Render 的 `CORS_ORIGIN` 已改成此前端 origin。
 線上手機寬度的雙視窗驗證：demo 主揪入口、模擬 5 位同事下單、另一視窗即時更新均通過，沒有頁面錯誤。
-下一步設定 GitHub Actions secrets `API_URL` 與 `DEMO_RESET_TOKEN`，實際執行每日重置 workflow。
+GitHub Actions secrets `API_URL` 與 `DEMO_RESET_TOKEN` 已設定；手動觸發每日重置 workflow 成功：`https://github.com/zooroy/office_foodie/actions/runs/38338397987`。
+重置後 demo-lunch 為 OPEN，恢復 5 位參與者、5 筆點餐。排程每天台灣時間 03:00 執行。
 `render.yaml`、`apps/web/vercel.json`、`.github/workflows/demo-reset.yml` 已準備；詳見 `docs/deployment.md`。
-10.6 與 11.4 的實際 workflow dispatch 尚待 GitHub secrets；12.1–12.3 亦尚未完成。
+剩餘 12.1–12.3：線上完整流程、README 與示範 GIF。README.md 有使用者未提交修改，接續時先檢查並保留。
 
 以下為搬移前的故障紀錄：
 
