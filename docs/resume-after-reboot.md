@@ -1,13 +1,13 @@
 # 重開機後接續
 
-更新日期：2026-10-12。
+更新日期：2026-10-13。
 
-下課後改用 Mac：先讀 [resume-on-mac.md](resume-on-mac.md)。目前停在 Render 環境變數設定，尚未確認按下 Deploy；使用者已要求暫停，等待回家接續。
+Render 與 Vercel 均已部署並驗證；舊的下課交接紀錄見 [resume-on-mac.md](resume-on-mac.md)，以本文件最新狀態為準。
 
 ## 目前進度
 
 - 專案：`D:\roy_space\office_foodie`。
-- OpenSpec change：`office-group-ordering`，目前完成 45/52 項任務（第 1–9 階段、10.1–10.5 與 11.1）。
+- OpenSpec change：`office-group-ordering`，目前完成 47/52 項任務（第 1–9 階段、10.1–10.5 與 11.1–11.3）。
 - pnpm monorepo、Nest API、Next.js + Tailwind + shadcn/ui 骨架已建立。
 - PostgreSQL 17.11 已安裝至 `.local/pgsql`；資料在 `.local/pgdata`。
 - 開發資料庫 `office_foodie`、測試資料庫 `office_foodie_test` 已建立。
@@ -29,9 +29,12 @@ Gemini 已以真實 API key 驗證範例菜單，辨識排骨飯 110 元、雞�
 示範資料可重複載入、受保護的重置 API、5 筆模擬下單與模式入口、3 秒喚醒與 90 秒逾時重試均已驗證。
 Neon 已建立，pooled 與 direct 連線已驗證，3 個 migration 套用成功，示範資料為 3 家餐廳、9 個品項、2 個揪團、10 位參與者。
 正式資料庫憑證位於未追蹤的 `apps/api/.env.production.local`；本機開發 `.env` 保持原設定。
-下一步帶使用者建立 Render 後端，再建立 Vercel 前端。
+Render API：`https://office-foodie-api.onrender.com`，健康檢查與示範資料皆正常。
+Vercel web：`https://office-foodie.vercel.app`；Render 的 `CORS_ORIGIN` 已改成此前端 origin。
+線上手機寬度的雙視窗驗證：demo 主揪入口、模擬 5 位同事下單、另一視窗即時更新均通過，沒有頁面錯誤。
+下一步設定 GitHub Actions secrets `API_URL` 與 `DEMO_RESET_TOKEN`，實際執行每日重置 workflow。
 `render.yaml`、`apps/web/vercel.json`、`.github/workflows/demo-reset.yml` 已準備；詳見 `docs/deployment.md`。
-10.6 的實際 workflow dispatch 需部署網址與 GitHub secrets，尚未勾選。11.2–12.3 亦尚未完成。
+10.6 與 11.4 的實際 workflow dispatch 尚待 GitHub secrets；12.1–12.3 亦尚未完成。
 
 以下為搬移前的故障紀錄：
 
